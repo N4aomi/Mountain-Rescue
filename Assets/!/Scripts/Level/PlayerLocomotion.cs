@@ -8,7 +8,7 @@ public class PlayerLocomotion : MonoBehaviour
     Transform cameraObject;
     Rigidbody playerRigidbody;
 
-    public float movementSpeed = 7;
+    public float movementSpeed = 10;
     public float rotationspeed = 15;
 
     private void Awake()
