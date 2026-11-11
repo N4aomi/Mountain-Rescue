@@ -2,11 +2,14 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+    Animator animator;
     InputManager inputManager;
     PlayerLocomotion playerLocomotion;
+    
 
     private void Awake()
     {
+        animator = GetComponent<Animator>();
         inputManager = GetComponent<InputManager>();
         playerLocomotion = GetComponent<PlayerLocomotion>();
     }
@@ -20,4 +23,10 @@ public class PlayerManager : MonoBehaviour
     {
         playerLocomotion.HandleAllMovement();
     }
+
+    private void LateUpdate()
+    { 
+        
+    }
 }
+
