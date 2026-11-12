@@ -127,17 +127,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""down"",
-                    ""id"": ""e6c64633-73ec-43f4-a587-c1d173bb98d9"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": ""left"",
                     ""id"": ""f348bc42-a2ee-41ba-ba9d-84afe15f5592"",
                     ""path"": ""<Keyboard>/a"",
@@ -174,17 +163,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""name"": ""up"",
                     ""id"": ""f6d8b9ec-3190-4d41-937d-181d1e6289ab"",
                     ""path"": ""<Gamepad>/leftStick/up"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""0872aed9-e3eb-4011-be0d-d080d33812d8"",
-                    ""path"": ""<Gamepad>/leftStick/down"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
