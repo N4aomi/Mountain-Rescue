@@ -39,6 +39,11 @@ public class BoarAI : MonoBehaviour
     public float attackHitDelay = 0.4f;
     public float attackHitTolerance = 0.5f;
 
+    [Header("Wildlife Warning")]
+    public WildlifeWarning wildlifeWarning;
+
+    private bool hasShownWildlifeWarning;
+
     private NavMeshAgent agent;
     private Vector3 patrolCenter;
 
@@ -122,6 +127,8 @@ public class BoarAI : MonoBehaviour
         if (!agent.isOnNavMesh)
             return;
 
+        CheckWildlifeWarning();
+
         if (playerHealth != null && playerHealth.IsDead)
         {
             chasingPlayer = false;
@@ -164,6 +171,20 @@ public class BoarAI : MonoBehaviour
         }
 
         UpdateAnimator();
+    }
+
+    private void CheckWildlifeWarning()
+    {
+        if (hasShownWildlifeWarning || player == null || wildlifeWarning == null)
+            return;
+
+        // Show the warning once when the player enters the patrol area.
+        float distance = Vector3.Distance(transform.position, player.position);
+        if (distance <= patrolRadius)
+        {
+            hasShownWildlifeWarning = true;
+            wildlifeWarning.ShowWarning();
+        }
     }
 
     bool DetectPlayer()

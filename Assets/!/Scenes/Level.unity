@@ -7405,6 +7405,52 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8afed9f085be18f45af2c870a58d2105, type: 3}
   m_PrefabInstance: {fileID: 321969400}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &323066359
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 323066361}
+  - component: {fileID: 323066360}
+  m_Layer: 0
+  m_Name: WildlifeWarningManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &323066360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323066359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3194aac19f22d0448913c95d2e18ff74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WildlifeWarning
+  warningText: {fileID: 1125946616}
+  warningDuration: 4
+--- !u!4 &323066361
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323066359}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 960, y: 540, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &325043482
 GameObject:
   m_ObjectHideFlags: 0
@@ -8541,23 +8587,24 @@ MonoBehaviour:
   animator: {fileID: 449282658}
   playerHealth: {fileID: 910653504}
   patrolRadius: 150
-  walkSpeed: 15
+  walkSpeed: 10
   idleMinTime: 1
   idleMaxTime: 3
   detectionRange: 100
   fieldOfView: 230
   closeDetectionRange: 40
   eyeHeight: 3
-  runSpeed: 22.5
-  turnSpeed: 900
-  acceleration: 100
-  attackTurnSpeed: 1080
-  attackRange: 10
+  runSpeed: 22
+  turnSpeed: 450
+  acceleration: 20
+  attackTurnSpeed: 500
+  attackRange: 8
   attackCooldown: 2
   attackDuration: 1
   attackDamage: 20
   attackHitDelay: 0.25
   attackHitTolerance: 3
+  wildlifeWarning: {fileID: 323066360}
 --- !u!195 &364861107
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -8568,11 +8615,11 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 1479372276
   m_Radius: 0.6
-  m_Speed: 24
-  m_Acceleration: 100
+  m_Speed: 22
+  m_Acceleration: 50
   avoidancePriority: 50
-  m_AngularSpeed: 900
-  m_StoppingDistance: 0.5
+  m_AngularSpeed: 500
+  m_StoppingDistance: 0.3
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -15685,23 +15732,24 @@ MonoBehaviour:
   animator: {fileID: 572446140}
   playerHealth: {fileID: 910653504}
   patrolRadius: 150
-  walkSpeed: 15
+  walkSpeed: 10
   idleMinTime: 1
   idleMaxTime: 3
   detectionRange: 100
   fieldOfView: 230
   closeDetectionRange: 40
   eyeHeight: 3
-  runSpeed: 22.5
-  turnSpeed: 900
-  acceleration: 100
-  attackTurnSpeed: 1080
-  attackRange: 10
+  runSpeed: 22
+  turnSpeed: 450
+  acceleration: 20
+  attackTurnSpeed: 500
+  attackRange: 8
   attackCooldown: 2
   attackDuration: 1
   attackDamage: 20
   attackHitDelay: 0.25
   attackHitTolerance: 3
+  wildlifeWarning: {fileID: 323066360}
 --- !u!195 &572446142
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -15712,11 +15760,11 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 1479372276
   m_Radius: 0.6
-  m_Speed: 24
-  m_Acceleration: 100
+  m_Speed: 22
+  m_Acceleration: 50
   avoidancePriority: 50
-  m_AngularSpeed: 900
-  m_StoppingDistance: 0.5
+  m_AngularSpeed: 500
+  m_StoppingDistance: 0.3
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -15923,7 +15971,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &586311594
 Transform:
   m_ObjectHideFlags: 0
@@ -17014,23 +17062,24 @@ MonoBehaviour:
   animator: {fileID: 626870486}
   playerHealth: {fileID: 910653504}
   patrolRadius: 150
-  walkSpeed: 15
+  walkSpeed: 10
   idleMinTime: 1
   idleMaxTime: 3
   detectionRange: 100
   fieldOfView: 230
   closeDetectionRange: 40
   eyeHeight: 3
-  runSpeed: 22.5
-  turnSpeed: 900
-  acceleration: 100
-  attackTurnSpeed: 1080
-  attackRange: 10
+  runSpeed: 22
+  turnSpeed: 450
+  acceleration: 20
+  attackTurnSpeed: 500
+  attackRange: 8
   attackCooldown: 2
   attackDuration: 1
   attackDamage: 20
   attackHitDelay: 0.25
   attackHitTolerance: 3
+  wildlifeWarning: {fileID: 323066360}
 --- !u!195 &626870488
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -17041,11 +17090,11 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 1479372276
   m_Radius: 0.6
-  m_Speed: 24
-  m_Acceleration: 100
+  m_Speed: 22
+  m_Acceleration: 50
   avoidancePriority: 50
-  m_AngularSpeed: 900
-  m_StoppingDistance: 0.5
+  m_AngularSpeed: 500
+  m_StoppingDistance: 0.3
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -19130,23 +19179,24 @@ MonoBehaviour:
   animator: {fileID: 770963237}
   playerHealth: {fileID: 910653504}
   patrolRadius: 150
-  walkSpeed: 15
+  walkSpeed: 10
   idleMinTime: 1
   idleMaxTime: 3
   detectionRange: 100
   fieldOfView: 230
   closeDetectionRange: 40
   eyeHeight: 3
-  runSpeed: 22.5
-  turnSpeed: 900
-  acceleration: 100
-  attackTurnSpeed: 1080
-  attackRange: 10
+  runSpeed: 22
+  turnSpeed: 450
+  acceleration: 20
+  attackTurnSpeed: 500
+  attackRange: 8
   attackCooldown: 2
   attackDuration: 1
   attackDamage: 20
   attackHitDelay: 0.25
   attackHitTolerance: 3
+  wildlifeWarning: {fileID: 323066360}
 --- !u!195 &770963239
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -19157,11 +19207,11 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 1479372276
   m_Radius: 0.6
-  m_Speed: 24
-  m_Acceleration: 100
+  m_Speed: 22
+  m_Acceleration: 50
   avoidancePriority: 50
-  m_AngularSpeed: 900
-  m_StoppingDistance: 0.5
+  m_AngularSpeed: 500
+  m_StoppingDistance: 0.3
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -19294,23 +19344,24 @@ MonoBehaviour:
   animator: {fileID: 779287522}
   playerHealth: {fileID: 910653504}
   patrolRadius: 150
-  walkSpeed: 15
+  walkSpeed: 10
   idleMinTime: 1
   idleMaxTime: 3
   detectionRange: 100
   fieldOfView: 230
   closeDetectionRange: 40
   eyeHeight: 3
-  runSpeed: 22.5
-  turnSpeed: 900
-  acceleration: 100
-  attackTurnSpeed: 1080
-  attackRange: 10
+  runSpeed: 22
+  turnSpeed: 450
+  acceleration: 20
+  attackTurnSpeed: 500
+  attackRange: 8
   attackCooldown: 2
   attackDuration: 1
   attackDamage: 20
   attackHitDelay: 0.25
   attackHitTolerance: 3
+  wildlifeWarning: {fileID: 323066360}
 --- !u!195 &779287524
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -19321,11 +19372,11 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 1479372276
   m_Radius: 0.6
-  m_Speed: 24
-  m_Acceleration: 100
+  m_Speed: 22
+  m_Acceleration: 50
   avoidancePriority: 50
-  m_AngularSpeed: 900
-  m_StoppingDistance: 0.5
+  m_AngularSpeed: 500
+  m_StoppingDistance: 0.3
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -24168,10 +24219,10 @@ RectTransform:
   - {fileID: 1574870934}
   m_Father: {fileID: 1808682328}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 200, y: -75}
+  m_SizeDelta: {x: 400, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1071754133
 MonoBehaviour:
@@ -24345,10 +24396,10 @@ RectTransform:
   - {fileID: 78252579}
   m_Father: {fileID: 1808682328}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 200, y: -225}
+  m_SizeDelta: {x: 400, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1093254392
 MonoBehaviour:
@@ -25132,6 +25183,143 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.13193226, y: 0.15964374, z: 0.0522579}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1125946614
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1125946615}
+  - component: {fileID: 1125946617}
+  - component: {fileID: 1125946616}
+  m_Layer: 0
+  m_Name: WildlifeWarning
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1125946615
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1125946614}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1530299972}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 211.2}
+  m_SizeDelta: {x: 900, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1125946616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1125946614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 'Warning: Beware of Wildlife!'
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 131ffd4da45c4ec45a7200d67b6a64b8, type: 2}
+  m_sharedMaterial: {fileID: 7469073327208088908, guid: 131ffd4da45c4ec45a7200d67b6a64b8, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4278190268
+  m_fontColor: {r: 0.73800004, g: 0, b: 0, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 50
+  m_fontSizeBase: 50
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 1
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_characterHorizontalScale: 1
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656bu
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1125946617
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1125946614}
+  m_CullTransparentMesh: 1
 --- !u!1 &1147287889
 GameObject:
   m_ObjectHideFlags: 0
@@ -37731,23 +37919,24 @@ MonoBehaviour:
   animator: {fileID: 1508028284}
   playerHealth: {fileID: 910653504}
   patrolRadius: 150
-  walkSpeed: 15
+  walkSpeed: 10
   idleMinTime: 1
   idleMaxTime: 3
   detectionRange: 100
   fieldOfView: 230
   closeDetectionRange: 40
   eyeHeight: 3
-  runSpeed: 22.5
-  turnSpeed: 900
-  acceleration: 100
-  attackTurnSpeed: 1080
-  attackRange: 10
+  runSpeed: 22
+  turnSpeed: 450
+  acceleration: 20
+  attackTurnSpeed: 500
+  attackRange: 8
   attackCooldown: 2
   attackDuration: 1
   attackDamage: 20
   attackHitDelay: 0.25
   attackHitTolerance: 3
+  wildlifeWarning: {fileID: 323066360}
 --- !u!195 &1508028286
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -37758,11 +37947,11 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 1479372276
   m_Radius: 0.6
-  m_Speed: 24
-  m_Acceleration: 100
+  m_Speed: 22
+  m_Acceleration: 50
   avoidancePriority: 50
-  m_AngularSpeed: 900
-  m_StoppingDistance: 0.5
+  m_AngularSpeed: 500
+  m_StoppingDistance: 0.3
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -38168,6 +38357,7 @@ RectTransform:
   - {fileID: 300817094}
   - {fileID: 2140777322}
   - {fileID: 1195512590}
+  - {fileID: 1125946615}
   m_Father: {fileID: 1925936933}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -39150,23 +39340,24 @@ MonoBehaviour:
   animator: {fileID: 1638276372}
   playerHealth: {fileID: 910653504}
   patrolRadius: 150
-  walkSpeed: 15
+  walkSpeed: 10
   idleMinTime: 1
   idleMaxTime: 3
   detectionRange: 100
   fieldOfView: 230
   closeDetectionRange: 40
   eyeHeight: 3
-  runSpeed: 22.5
-  turnSpeed: 900
-  acceleration: 100
-  attackTurnSpeed: 1080
-  attackRange: 10
+  runSpeed: 22
+  turnSpeed: 450
+  acceleration: 20
+  attackTurnSpeed: 500
+  attackRange: 8
   attackCooldown: 2
   attackDuration: 1
   attackDamage: 20
   attackHitDelay: 0.25
   attackHitTolerance: 3
+  wildlifeWarning: {fileID: 323066360}
 --- !u!195 &1638276374
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -39177,11 +39368,11 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 1479372276
   m_Radius: 0.6
-  m_Speed: 24
-  m_Acceleration: 100
+  m_Speed: 22
+  m_Acceleration: 50
   avoidancePriority: 50
-  m_AngularSpeed: 900
-  m_StoppingDistance: 0.5
+  m_AngularSpeed: 500
+  m_StoppingDistance: 0.3
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -46835,23 +47026,24 @@ MonoBehaviour:
   animator: {fileID: 2031375396}
   playerHealth: {fileID: 910653504}
   patrolRadius: 150
-  walkSpeed: 15
+  walkSpeed: 10
   idleMinTime: 1
   idleMaxTime: 3
   detectionRange: 100
   fieldOfView: 230
   closeDetectionRange: 40
   eyeHeight: 3
-  runSpeed: 22.5
-  turnSpeed: 900
-  acceleration: 100
-  attackTurnSpeed: 1080
-  attackRange: 10
+  runSpeed: 22
+  turnSpeed: 450
+  acceleration: 20
+  attackTurnSpeed: 500
+  attackRange: 8
   attackCooldown: 2
   attackDuration: 1
   attackDamage: 20
   attackHitDelay: 0.25
   attackHitTolerance: 3
+  wildlifeWarning: {fileID: 323066360}
 --- !u!195 &2031375398
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -46862,11 +47054,11 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 1479372276
   m_Radius: 0.6
-  m_Speed: 24
-  m_Acceleration: 100
+  m_Speed: 22
+  m_Acceleration: 50
   avoidancePriority: 50
-  m_AngularSpeed: 900
-  m_StoppingDistance: 0.5
+  m_AngularSpeed: 500
+  m_StoppingDistance: 0.3
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -49504,3 +49696,4 @@ SceneRoots:
   - {fileID: 1082137884}
   - {fileID: 1826050623}
   - {fileID: 1103556897}
+  - {fileID: 323066361}
