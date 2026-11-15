@@ -20924,7 +20924,7 @@ MonoBehaviour:
   isGrounded: 0
   groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   groundCheckDistance: 0.3
 --- !u!114 &910653503
 MonoBehaviour:

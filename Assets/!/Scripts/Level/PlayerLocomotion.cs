@@ -1,7 +1,4 @@
 using System;
-using NUnit.Framework;
-using Unity.Hierarchy.Editor;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
