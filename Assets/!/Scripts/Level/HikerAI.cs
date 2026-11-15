@@ -61,23 +61,40 @@ public class HikerAI : MonoBehaviour
 
         positionOffset = (hikerIndex - 1) * 1.5f;
 
+        NavMeshQueryFilter filter = new NavMeshQueryFilter
+        {
+            agentTypeID = agent.agentTypeID,
+            areaMask = agent.areaMask
+        };
+
         if (!NavMesh.SamplePosition(
             spawnPosition,
             out NavMeshHit hit,
-            2f,
-            agent.areaMask))
+            5f,
+            filter))
         {
             Debug.LogError(
-                name + ": Kein NavMesh am Versteck gefunden!"
+                name +
+                ": Kein Hiker-NavMesh am Versteck gefunden!" +
+                " Spawn Position: " + spawnPosition +
+                " | Agent Type ID: " + agent.agentTypeID
             );
+
             return false;
         }
 
         if (!agent.Warp(hit.position))
+        {
+            Debug.LogError(
+                name + ": Konnte nicht auf das NavMesh gesetzt werden!"
+            );
+
             return false;
+        }
 
         CurrentState = HikerState.Waiting;
         StopMoving();
+        SetAnimation(0f);
 
         return true;
     }
@@ -95,9 +112,8 @@ public class HikerAI : MonoBehaviour
         else
         {
             StopMoving();
+            SetAnimation(0f);
         }
-
-        UpdateAnimation();
     }
 
     private void FollowPlayer()
@@ -141,7 +157,6 @@ public class HikerAI : MonoBehaviour
         }
 
         agent.stoppingDistance = 0.3f;
-
         updateTimer -= Time.deltaTime;
 
         if (updateTimer <= 0f)
@@ -162,11 +177,17 @@ public class HikerAI : MonoBehaviour
                     player.forward * followDistance;
             }
 
+            NavMeshQueryFilter filter = new NavMeshQueryFilter
+            {
+                agentTypeID = agent.agentTypeID,
+                areaMask = agent.areaMask
+            };
+
             if (NavMesh.SamplePosition(
                 followPosition,
                 out NavMeshHit hit,
                 2.5f,
-                agent.areaMask))
+                filter))
             {
                 agent.SetDestination(hit.position);
             }
@@ -180,15 +201,6 @@ public class HikerAI : MonoBehaviour
         }
 
         SetAnimation(animationValue);
-    }
-
-    private void UpdateAnimation()
-    {
-        if (CurrentState == HikerState.Waiting ||
-            CurrentState == HikerState.AtCamp)
-        {
-            SetAnimation(0f);
-        }
     }
 
     private void SetAnimation(float vertical)

@@ -76,7 +76,7 @@ public class AnimatorManager : MonoBehaviour
 
     public void PlayTargetAnimation(string targetAnimation, bool isInteracting)
     {
-        animator.SetBool("isnteracting", isInteracting);
+        animator.SetBool("isInteracting", isInteracting);
         animator.CrossFade(targetAnimation, 0.1f);
     }
 }

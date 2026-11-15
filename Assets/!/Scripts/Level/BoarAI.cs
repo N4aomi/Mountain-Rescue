@@ -8,6 +8,7 @@ public class BoarAI : MonoBehaviour
     public Transform player;
     public PlayerBuildingStatus playerBuildingStatus;
     public Animator animator;
+    public PlayerHealth playerHealth;
 
     [Header("Patrol")]
     public float patrolRadius = 15f;
@@ -25,10 +26,18 @@ public class BoarAI : MonoBehaviour
     [Header("Chase")]
     public float runSpeed = 4f;
 
+    [Header("Agility")]
+    public float turnSpeed = 900f;
+    public float acceleration = 100f;
+    public float attackTurnSpeed = 1080f;
+
     [Header("Attack")]
     public float attackRange = 1.8f;
     public float attackCooldown = 2f;
     public float attackDuration = 1f;
+    public float attackDamage = 20f;
+    public float attackHitDelay = 0.4f;
+    public float attackHitTolerance = 0.5f;
 
     private NavMeshAgent agent;
     private Vector3 patrolCenter;
@@ -48,6 +57,8 @@ public class BoarAI : MonoBehaviour
     private float attackTimer;
     private float nextAttackTime;
     private float repathTimer;
+    private float attackHitTimer;
+    private bool attackHitPending;
 
     void Awake()
     {
@@ -61,6 +72,9 @@ public class BoarAI : MonoBehaviour
     {
         patrolCenter = transform.position;
 
+        if (player != null && playerHealth == null)
+            playerHealth = player.GetComponent<PlayerHealth>();
+
         if (player != null && playerBuildingStatus == null)
         {
             playerBuildingStatus =
@@ -70,7 +84,7 @@ public class BoarAI : MonoBehaviour
         if (player == null || playerBuildingStatus == null)
         {
             Debug.LogError(
-                "BoarAI: Player oder PlayerBuildingStatus fehlt!",
+                "BoarAI: Player or PlayerBuildingStatus is missing!",
                 this
             );
             enabled = false;
@@ -79,7 +93,7 @@ public class BoarAI : MonoBehaviour
 
         if (animator == null)
         {
-            Debug.LogError("BoarAI: Animator fehlt!", this);
+            Debug.LogError("BoarAI: Animator is missing!", this);
             enabled = false;
             return;
         }
@@ -87,12 +101,17 @@ public class BoarAI : MonoBehaviour
         if (!agent.isOnNavMesh)
         {
             Debug.LogError(
-                "Boar steht nicht auf einem gebackenen NavMesh!",
+                "Boar is not standing on a baked NavMesh!",
                 this
             );
             enabled = false;
             return;
         }
+
+        // Allow quick steering and acceleration when chasing the player.
+        agent.angularSpeed = turnSpeed;
+        agent.acceleration = acceleration;
+        agent.updateRotation = true;
 
         agent.speed = walkSpeed;
         StartIdle();
@@ -103,7 +122,17 @@ public class BoarAI : MonoBehaviour
         if (!agent.isOnNavMesh)
             return;
 
-        // Gebäude sind sichere Zonen.
+        if (playerHealth != null && playerHealth.IsDead)
+        {
+            chasingPlayer = false;
+            if (state != BoarState.Idle && state != BoarState.Walk)
+                StartIdle();
+            HandlePatrol();
+            UpdateAnimator();
+            return;
+        }
+
+        // Stop chasing when the player enters a safe zone.
         if (playerBuildingStatus.IsInsideBuilding)
         {
             if (chasingPlayer ||
@@ -119,8 +148,7 @@ public class BoarAI : MonoBehaviour
             return;
         }
 
-        // Einmal entdeckt, verfolgt Boar den Spieler
-        // bis dieser ein Gebäude betritt.
+        // Keep chasing once the player is detected, until they reach safety.
         if (!chasingPlayer && DetectPlayer())
         {
             chasingPlayer = true;
@@ -151,7 +179,7 @@ public class BoarAI : MonoBehaviour
             return false;
         }
 
-        // Sehr nahe Spieler auch hinter Boar erkennen.
+        // Detect very close players even outside the field of view.
         if (distance <= closeDetectionRange)
             return HasClearSight();
 
@@ -267,6 +295,12 @@ public class BoarAI : MonoBehaviour
             FacePlayer();
 
             attackTimer -= Time.deltaTime;
+            if (attackHitPending)
+            {
+                attackHitTimer -= Time.deltaTime;
+                if (attackHitTimer <= 0f)
+                    ApplyAttackDamage();
+            }
 
             if (attackTimer <= 0f)
             {
@@ -314,9 +348,24 @@ public class BoarAI : MonoBehaviour
         agent.isStopped = true;
 
         attackTimer = attackDuration;
+        attackHitTimer = attackHitDelay;
+        attackHitPending = true;
         nextAttackTime = Time.time + attackCooldown;
 
         animator.SetTrigger("Attack");
+    }
+
+    private void ApplyAttackDamage()
+    {
+        attackHitPending = false;
+
+        if (playerHealth == null || playerHealth.IsDead ||
+            playerBuildingStatus.IsInsideBuilding)
+            return;
+
+        float distance = Vector3.Distance(transform.position, player.position);
+        if (distance <= attackRange + attackHitTolerance && HasClearSight())
+            playerHealth.TakeDamage(attackDamage);
     }
 
     void FacePlayer()
@@ -328,10 +377,11 @@ public class BoarAI : MonoBehaviour
         {
             Quaternion rotation = Quaternion.LookRotation(direction);
 
-            transform.rotation = Quaternion.Slerp(
+            // Rotate towards the player at a fixed speed during attacks.
+            transform.rotation = Quaternion.RotateTowards(
                 transform.rotation,
                 rotation,
-                8f * Time.deltaTime
+                attackTurnSpeed * Time.deltaTime
             );
         }
     }

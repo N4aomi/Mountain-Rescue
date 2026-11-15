@@ -8,6 +8,8 @@ public class RescueManager : MonoBehaviour
 {
     [Header("Player")]
     public Transform player;
+    public PlayerHealth playerHealth;
+    public GameHUD hud;
 
     [Header("Hikers - Exactly 3")]
     public HikerAI[] hikers = new HikerAI[3];
@@ -43,17 +45,20 @@ public class RescueManager : MonoBehaviour
             hidingPlaces.Length < 3)
         {
             Debug.LogError(
-                "RescueManager: References fehlen!"
+                "RescueManager: References missing!"
             );
 
             enabled = false;
             return;
         }
 
+        if (playerHealth == null)
+            playerHealth = player.GetComponent<PlayerHealth>();
+
         List<Transform> availableSpots =
             new List<Transform>(hidingPlaces);
 
-        // Verstecke zufällig mischen
+        // randomize hiding missions
         for (int i = availableSpots.Count - 1; i > 0; i--)
         {
             int randomIndex = Random.Range(0, i + 1);
@@ -68,7 +73,7 @@ public class RescueManager : MonoBehaviour
             if (hikers[i] == null ||
                 availableSpots[i] == null)
             {
-                Debug.LogError("Ein Wanderer oder Versteck fehlt!");
+                Debug.LogError("A hiker or hiding is missing!");
                 enabled = false;
                 return;
             }
@@ -86,13 +91,19 @@ public class RescueManager : MonoBehaviour
             }
         }
 
-        Debug.Log("Rettungsmission gestartet: 0/3");
+        ShowMessage("Rescue mission started: Find all 3 hikers!");
     }
 
     private void Update()
     {
-        if (missionFinished)
+        if (missionFinished || Time.timeScale == 0f ||
+            (playerHealth != null && playerHealth.IsDead))
+        {
+            if (hud != null) hud.SetInteractionPrompt(false);
             return;
+        }
+
+        UpdateInteractionPrompt();
 
         if (!evacuationStarted)
         {
@@ -105,9 +116,44 @@ public class RescueManager : MonoBehaviour
         }
     }
 
+    private HikerAI FindNearestWaitingHiker()
+    {
+        HikerAI nearest = null;
+        float closest = interactDistance;
+
+        foreach (HikerAI hiker in hikers)
+        {
+            if (hiker == null || hiker.CurrentState != HikerAI.HikerState.Waiting)
+                continue;
+
+            float distance = Vector3.Distance(player.position, hiker.transform.position);
+            if (distance <= closest)
+            {
+                closest = distance;
+                nearest = hiker;
+            }
+        }
+
+        return nearest;
+    }
+
+    private void UpdateInteractionPrompt()
+    {
+        if (hud == null) return;
+        bool show = !evacuationStarted && activeHiker == null &&
+                    FindNearestWaitingHiker() != null;
+        hud.SetInteractionPrompt(show);
+    }
+
+    private void ShowMessage(string message)
+    {
+        if (hud != null) hud.ShowMessage(message);
+        else Debug.Log(message);
+    }
+
     private void CheckForInteraction()
     {
-        // Nur einen Wanderer gleichzeitig mitnehmen
+        // Only one hiker at a time
         if (activeHiker != null)
             return;
 
@@ -115,36 +161,15 @@ public class RescueManager : MonoBehaviour
             !Keyboard.current.eKey.wasPressedThisFrame)
             return;
 
-        HikerAI nearestHiker = null;
-        float nearestDistance = interactDistance;
-
-        foreach (HikerAI hiker in hikers)
-        {
-            if (hiker.CurrentState !=
-                HikerAI.HikerState.Waiting)
-                continue;
-
-            float distance = Vector3.Distance(
-                player.position,
-                hiker.transform.position
-            );
-
-            if (distance <= nearestDistance)
-            {
-                nearestDistance = distance;
-                nearestHiker = hiker;
-            }
-        }
+        HikerAI nearestHiker = FindNearestWaitingHiker();
 
         if (nearestHiker != null)
         {
             activeHiker = nearestHiker;
             activeHiker.StartFollowing();
 
-            Debug.Log(
-                activeHiker.name +
-                " folgt dir jetzt! Bring ihn zum Camp."
-            );
+            ShowMessage(activeHiker.name + " is following you. Return to camp!");
+            if (hud != null) hud.SetInteractionPrompt(false);
         }
     }
 
@@ -163,7 +188,7 @@ public class RescueManager : MonoBehaviour
             campPoint.position
         );
 
-        // Player UND Wanderer müssen im Camp sein
+        // Player and Hikers have to be at camp
         if (playerDistance <= campRadius &&
             hikerDistance <= campRadius)
         {
@@ -172,10 +197,7 @@ public class RescueManager : MonoBehaviour
 
             rescuedHikers++;
 
-            Debug.Log(
-                "Wanderer gerettet! " +
-                rescuedHikers + "/3"
-            );
+            ShowMessage("Hiker rescued! " + rescuedHikers + "/3");
 
             if (rescuedHikers == hikers.Length)
             {
@@ -188,10 +210,7 @@ public class RescueManager : MonoBehaviour
     {
         evacuationStarted = true;
 
-        Debug.Log(
-            "Alle Wanderer gerettet! " +
-            "Bringe sie zum Höhlenausgang!"
-        );
+        ShowMessage("All hikers rescued! Go to the cave exit!");
 
         foreach (HikerAI hiker in hikers)
         {
@@ -201,13 +220,13 @@ public class RescueManager : MonoBehaviour
 
     private void CheckCaveExit()
     {
-        // Der Spieler muss am Ausgang sein
+        // Player has to be at exit
         if (Vector3.Distance(
             player.position,
             caveExitPoint.position) > exitRadius)
             return;
 
-        // Alle drei Wanderer müssen ebenfalls da sein
+        // All Hikers have to be there
         foreach (HikerAI hiker in hikers)
         {
             if (Vector3.Distance(
@@ -225,10 +244,10 @@ public class RescueManager : MonoBehaviour
     {
         missionFinished = true;
 
-        Debug.Log("MISSION COMPLETE! Alle gerettet!");
+        ShowMessage("MISSION COMPLETE! Everyone is safe!");
 
         Time.timeScale = 1f;
-        SceneManager.LoadScene(endSceneName);
+        SceneManager.LoadScene("EndScene");
     }
 
     private void OnDrawGizmosSelected()
