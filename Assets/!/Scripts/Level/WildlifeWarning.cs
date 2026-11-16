@@ -8,7 +8,7 @@ public class WildlifeWarning : MonoBehaviour
     public TMP_Text warningText;
 
     [Header("Settings")]
-    public float warningDuration = 3f;
+    public float warningDuration = 4f;
 
     private Coroutine warningCoroutine;
 
@@ -35,7 +35,9 @@ public class WildlifeWarning : MonoBehaviour
 
     private IEnumerator DisplayWarning()
     {
-        warningText.text = "Beware of Wildlife!";
+        warningText.text =
+            "WARNING: WILDLIFE NEARBY!\n" +
+            "Seek shelter in buildings!";
         warningText.gameObject.SetActive(true);
 
         yield return new WaitForSecondsRealtime(warningDuration);

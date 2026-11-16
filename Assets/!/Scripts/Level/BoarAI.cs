@@ -42,7 +42,7 @@ public class BoarAI : MonoBehaviour
     [Header("Wildlife Warning")]
     public WildlifeWarning wildlifeWarning;
 
-    private bool hasShownWildlifeWarning;
+    private bool wasInsidePatrolArea;
 
     private NavMeshAgent agent;
     private Vector3 patrolCenter;
@@ -175,16 +175,21 @@ public class BoarAI : MonoBehaviour
 
     private void CheckWildlifeWarning()
     {
-        if (hasShownWildlifeWarning || player == null || wildlifeWarning == null)
+        if (player == null)
             return;
 
-        // Show the warning once when the player enters the patrol area.
-        float distance = Vector3.Distance(transform.position, player.position);
-        if (distance <= patrolRadius)
-        {
-            hasShownWildlifeWarning = true;
+        // The patrol area stays centered on the boar's initial position.
+        // Use horizontal distance so terrain height does not affect the warning.
+        Vector3 offset = player.position - patrolCenter;
+        offset.y = 0f;
+        bool isInsidePatrolArea = offset.sqrMagnitude <= patrolRadius * patrolRadius;
+
+        // Trigger only when the player crosses from outside to inside.
+        if (isInsidePatrolArea && !wasInsidePatrolArea && wildlifeWarning != null)
             wildlifeWarning.ShowWarning();
-        }
+
+        // Leaving the area re-arms the warning for the next entry.
+        wasInsidePatrolArea = isInsidePatrolArea;
     }
 
     bool DetectPlayer()
